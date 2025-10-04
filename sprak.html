@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeiPetter - Språk & Nivå</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: #f9fafb;
+            color: #1f2937;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e5e7eb;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-description {
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+        
+        .label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.75rem;
+        }
+        
+        .language-list {
+            margin-bottom: 2rem;
+        }
+        
+        .language-item {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .language-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .language-select-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .language-select {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .language-select:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+        
+        .flag {
+            font-size: 2rem;
+        }
+        
+        .remove-btn {
+            background: #fee2e2;
+            color: #991b1b;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .remove-btn:hover {
+            background: #fecaca;
+        }
+        
+        .level-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+        
+        .level-btn {
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            background: white;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        
+        .level-btn:hover {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+        
+        .level-btn.selected {
+            border-color: #10b981;
+            background: #d1fae5;
+            font-weight: 600;
+            color: #065f46;
+        }
+        
+        .level-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        
+        .level-description {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        .add-language-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #f9fafb;
+            border: 2px dashed #d1d5db;
+            border-radius: 0.5rem;
+            color: #10b981;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .add-language-btn:hover {
+            background: #f0fdf4;
+            border-color: #10b981;
+        }
+        
+        .info-box {
+            background: #dbeafe;
+            border: 1px solid #93c5fd;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .info-title {
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-text {
+            font-size: 0.875rem;
+            color: #1e3a8a;
+        }
+        
+        .level-guide {
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .level-guide-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #374151;
+        }
+        
+        .level-guide-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .level-guide-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .level-guide-level {
+            font-weight: 600;
+            color: #10b981;
+            margin-bottom: 0.25rem;
+        }
+        
+        .level-guide-desc {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        
+        .save-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: all 0.2s;
+        }
+        
+        .save-btn:hover {
+            background: #059669;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="section-title">🌍 Språk & Språknivå</h2>
+        <p class="section-description">Legg til språkene du behersker og velg nivå for hvert språk</p>
+
+        <div class="info-box">
+            <div class="info-title">ℹ️ Hvorfor er dette viktig?</div>
+            <p class="info-text">
+                Mange jobber krever spesifikke språk. Ved å være ærlig om ditt nivå hjelper vi deg å finne jobber som passer dine ferdigheter.
+            </p>
+        </div>
+
+        <div class="language-list" id="languageList">
+            <!-- Language items will be added here -->
+        </div>
+
+        <button class="add-language-btn" onclick="addLanguage()">
+            ➕ Legg til språk
+        </button>
+
+        <div class="level-guide">
+            <div class="level-guide-title">📖 Guide til språknivå</div>
+            
+            <div class="level-guide-item">
+                <div class="level-guide-level">🟢 Litt (A1 - Nybegynner)</div>
+                <div class="level-guide-desc">Jeg kan noen ord og enkle setninger. Kan si hei og presentere meg selv.</div>
+            </div>
+            
+            <div class="level-guide-item">
+                <div class="level-guide-level">🟢 Middels (A2 - Grunnleggende)</div>
+                <div class="level-guide-desc">Jeg forstår vanlige setninger om jobb, familie, shopping. Kan snakke om enkle ting.</div>
+            </div>
+            
+            <div class="level-guide-item">
+                <div class="level-guide-level">🟡 Godt (B1 - Selvstendig)</div>
+                <div class="level-guide-desc">Jeg forstår det meste om kjente temaer. Kan håndtere de fleste samtaler på jobb.</div>
+            </div>
+            
+            <div class="level-guide-item">
+                <div class="level-guide-level">🟡 Veldig godt (B2 - Øvre mellomnivå)</div>
+                <div class="level-guide-desc">Jeg forstår komplekse samtaler. Kan snakke flytende uten å stoppe og tenke mye.</div>
+            </div>
+            
+            <div class="level-guide-item">
+                <div class="level-guide-level">🔴 Nesten perfekt (C1 - Avansert)</div>
+                <div class="level-guide-desc">Jeg forstår nesten alt. Kan bruke språket profesjonelt i alle situasjoner.</div>
+            </div>
+            
+            <div class="level-guide-item">
+                <div class="level-guide-level">🔴 Som morsmål (C2 - Morsmål)</div>
+                <div class="level-guide-desc">Jeg snakker/skriver dette språket like godt som mitt morsmål. Forstår absolutt alt.</div>
+            </div>
+        </div>
+
+        <button class="save-btn" onclick="saveLanguages()">Lagre språk</button>
+    </div>
+
+    <script>
+        const languages = [
+            { code: 'no', name: 'Norsk', flag: '🇳🇴' },
+            { code: 'en', name: 'Engelsk', flag: '🇬🇧' },
+            { code: 'sv', name: 'Svensk', flag: '🇸🇪' },
+            { code: 'da', name: 'Dansk', flag: '🇩🇰' },
+            { code: 'de', name: 'Tysk', flag: '🇩🇪' },
+            { code: 'fr', name: 'Fransk', flag: '🇫🇷' },
+            { code: 'es', name: 'Spansk', flag: '🇪🇸' },
+            { code: 'it', name: 'Italiensk', flag: '🇮🇹' },
+            { code: 'pt', name: 'Portugisisk', flag: '🇵🇹' },
+            { code: 'pl', name: 'Polsk', flag: '🇵🇱' },
+            { code: 'ru', name: 'Russisk', flag: '🇷🇺' },
+            { code: 'ar', name: 'Arabisk', flag: '🇸🇦' },
+            { code: 'zh', name: 'Kinesisk', flag: '🇨🇳' },
+            { code: 'ja', name: 'Japansk', flag: '🇯🇵' },
+            { code: 'ko', name: 'Koreansk', flag: '🇰🇷' },
+            { code: 'hi', name: 'Hindi', flag: '🇮🇳' },
+            { code: 'tr', name: 'Tyrkisk', flag: '🇹🇷' },
+            { code: 'nl', name: 'Nederlandsk', flag: '🇳🇱' },
+            { code: 'other', name: 'Annet språk', flag: '🌍' }
+        ];
+
+        const levels = [
+            { code: 'A1', name: 'Litt', desc: 'Grunnleggende', cefr: 'A1' },
+            { code: 'A2', name: 'Middels', desc: 'Dagligdags', cefr: 'A2' },
+            { code: 'B1', name: 'Godt', desc: 'Selvstendig', cefr: 'B1' },
+            { code: 'B2', name: 'Veldig godt', desc: 'Flytende', cefr: 'B2' },
+            { code: 'C1', name: 'Nesten perfekt', desc: 'Avansert', cefr: 'C1' },
+            { code: 'C2', name: 'Som morsmål', desc: 'Ekspert', cefr: 'C2' }
+        ];
+
+        let languageCount = 0;
+        let userLanguages = [];
+
+        function addLanguage() {
+            languageCount++;
+            const id = `lang-${languageCount}`;
+            
+            const languageItem = document.createElement('div');
+            languageItem.className = 'language-item';
+            languageItem.id = id;
+            
+            languageItem.innerHTML = `
+                <div class="language-header">
+                    <div class="language-select-group">
+                        <span class="flag" id="${id}-flag">🌍</span>
+                        <select class="language-select" id="${id}-select" onchange="updateFlag('${id}')">
+                            <option value="">Velg språk...</option>
+                            ${languages.map(lang => `<option value="${lang.code}">${lang.name}</option>`).join('')}
+                        </select>
+                    </div>
+                    <button class="remove-btn" onclick="removeLanguage('${id}')">Fjern</button>
+                </div>
+                
+                <label class="label">Hvor godt snakker du dette språket?</label>
+                <div class="level-selector" id="${id}-levels">
+                    ${levels.map(level => `
+                        <div class="level-btn" onclick="selectLevel('${id}', '${level.code}')">
+                            <span class="level-label">${level.name}</span>
+                            <span class="level-description">${level.desc}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            document.getElementById('languageList').appendChild(languageItem);
+        }
+
+        function updateFlag(id) {
+            const select = document.getElementById(`${id}-select`);
+            const flag = document.getElementById(`${id}-flag`);
+            const selectedLang = languages.find(lang => lang.code === select.value);
+            
+            if (selectedLang) {
+                flag.textContent = selectedLang.flag;
+            }
+        }
+
+        function selectLevel(id, levelCode) {
+            // Remove selected class from all levels in this language
+            const levels = document.querySelectorAll(`#${id}-levels .level-btn`);
+            levels.forEach(btn => btn.classList.remove('selected'));
+            
+            // Add selected class to clicked level
+            event.target.closest('.level-btn').classList.add('selected');
+        }
+
+        function removeLanguage(id) {
+            const element = document.getElementById(id);
+            element.remove();
+        }
+
+        function saveLanguages() {
+            const languageItems = document.querySelectorAll('.language-item');
+            userLanguages = [];
+            
+            languageItems.forEach(item => {
+                const id = item.id;
+                const selectElement = document.getElementById(`${id}-select`);
+                const selectedLevel = item.querySelector('.level-btn.selected');
+                
+                if (selectElement.value && selectedLevel) {
+                    const langData = languages.find(l => l.code === selectElement.value);
+                    const levelData = levels.find(l => l.code === selectedLevel.querySelector('.level-label').textContent);
+                    
+                    userLanguages.push({
+                        code: selectElement.value,
+                        name: langData.name,
+                        flag: langData.flag,
+                        level: selectedLevel.querySelector('.level-label').textContent,
+                        levelDesc: selectedLevel.querySelector('.level-description').textContent
+                    });
+                }
+            });
+            
+            console.log('Saved languages:', userLanguages);
+            alert(`✅ Språk lagret!\n\nDu har lagt til ${userLanguages.length} språk:\n${userLanguages.map(l => `${l.flag} ${l.name}: ${l.level} (${l.levelDesc})`).join('\n')}`);
+        }
+
+        // Add default language (Norwegian) on load
+        window.onload = function() {
+            addLanguage();
+            // Pre-select Norwegian if desired
+            document.querySelector('.language-select').value = 'no';
+            updateFlag('lang-1');
+        };
+    </script>
+</body>
+</html>
